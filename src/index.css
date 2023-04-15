@@ -18,85 +18,24 @@ code {
   border-radius: 4px;
   padding: 10px;
 }
-.questionHeader {
-  margin-top: 50px;
+
+.appContainer {
+  margin: 20px auto;
+  position: relative;
+  border: 1px solid black;
+  border-radius: 5px;
+  min-height: calc(100vh - 40px);
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
-.appContainer{
-width: 80vw;
-margin: 20px auto;
-/* padding: 10px; */
-border: 1px solid black;
-border-radius: 5px;
-height: calc(100vh - 40px);
+@media only screen and (min-device-width: 600px) and (max-device-width: 1200px) and (orientation: landscape) {
 }
-
-.categoryLabel{
-  margin: 10px 0 3px 0;
-  color: grey;
-}
-.questionText{
-  margin: 35px 0 35px 0;
-  word-wrap: break-word;
-  line-height: 25px;
-}
-.nextButton {
-  background: gray;
-  color: white;
-  border-radius: 4px;
-  padding: 10px;
-  margin-top: 20px;
-  border: solid 1px black;
-}
-.ratingStar{
-  color: black !important;
-}
-.boxWrapper{
- margin: 0 70px;
-}
-
-.optionsButton{
-background-color: rgb(203 203 203 / 20%) !important;
-box-shadow: none !important;
-color: #666464 !important;
-border: 1px solid #000 !important;
-font-weight: 600 !important;
-padding: 3px !important;
-text-transform: capitalize;
-}
-.optionsButton:hover{
-  background-color: black !important;
-  color: #ffffff !important;
-}
-.nextButton{
-  background-color: #8080805c !important;
-  box-shadow: none !important;
-  color: #000 !important;
-  border: 1.5px solid #000 !important;
-  font-weight: 600 !important;
-  padding: 6px 20px !important;
-  text-transform: capitalize;
-}
-.nextButton:hover{
-  background-color: black !important;
-  color: #ffffff !important;
-}
-.buttonCombo{
-  display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 150px;
-    row-gap: 50px;
-}
-
-.nextBtnWrapper{
-  margin-top: 80px;
-  text-align: center;
-}
-
-.progressBar {
-  padding: 5px;
-  background-color: white !important;
-}
-.progressBar .MuiLinearProgress-bar{
-  background-color: grey !important;
+@media (min-width: 600px) {
+  .MuiContainer-root {
+    padding-left: 50px !important;
+    padding-right: 50px !important;
+  }
 }

@@ -1,92 +1,71 @@
 import React, { useState } from "react";
-import "./App.css";
-import { questionArray } from "./constant";
 import { Button, Container, LinearProgress, Rating } from "@mui/material";
-import { getRating } from "./helperFunction";
+
+//css
+import "./App.css";
+
+//constants
+import { questionArray } from "./utils/constant";
+import FinishExam from "./component/FinishExam/FinishExam";
+import QuestionContainer from "./component/QuestionContainer/QuestionContainer";
+import ResultBar from "./component/ResultBar/ResultBar";
 
 function App() {
-  const [answerList, setAnswerList] = useState({});
-  const [activeAnswer, setActiveAnswer] = useState("");
+  const [isExamFinished, setIsExamFinished] = useState(false);
+  const [answerHistory, setAnswerHistory] = useState({
+    correct: 0,
+    incorrect: 0,
+  });
   const [activeQuestion, setActiveQuestion] = useState({
     ...questionArray[0],
-    activeIndex: 1,
+    activeIndex: 0,
     incorrect_answers: [
       questionArray[0].correct_answer,
       ...questionArray[0].incorrect_answers,
     ],
   });
+
+  // Quiz progress
   const progress =
     (100 * activeQuestion.activeIndex) / questionArray.length - 1;
-  const onNextQuestion = () => {
-    const newIndex = activeQuestion.activeIndex + 1;
-    setActiveQuestion({
-      ...questionArray[newIndex],
-      activeIndex: newIndex,
-      incorrect_answers: [
-        questionArray[newIndex].correct_answer,
-        ...questionArray[newIndex].incorrect_answers,
-      ],
-    });
-  };
+
+  //Scores
+  const lowestScore = (answerHistory.correct / questionArray.length) * 100;
+  const currentScore =
+    (answerHistory.correct / activeQuestion.activeIndex) * 100 || 0;
+  const remainingHighest = questionArray.length - activeQuestion.activeIndex;
+  const remainingHighestPercentage =
+    (remainingHighest * 100) / questionArray.length;
+  const possibleHighest = remainingHighestPercentage + lowestScore;
+
   return (
-    <Container className="App">
-      <div className="appContainer">
-        <LinearProgress
-          variant="determinate"
-          className="progressBar"
-          value={progress}
-        />
-        <div className="boxWrapper">
-          <div className="questionHeader">
-            <h1 style={{ margin: 0 }}>
-              {`Question ${activeQuestion.activeIndex} of ${questionArray.length}`}
-            </h1>
-          </div>
-          <div className="categoryLabel">{decodeURIComponent(activeQuestion.category)}</div>
-          <Rating
-            name="text-feedback"
-            value={getRating(activeQuestion.difficulty)}
-            readOnly
-            precision={0.5}
-            color="red"
-            className="ratingStar"
-          />
-          <div className="questionText">{decodeURIComponent(activeQuestion.question)}</div>
-          <div>
-            <div className="buttonCombo">
-              {activeQuestion.incorrect_answers.map((i) => (
-                <Button
-                  variant="contained"
-                  component="label"
-                  className="button optionsButton"
-                  onClick={() => {
-                    if (activeQuestion.correct_answer === i)
-                      return setActiveAnswer("pass");
-                    else setActiveAnswer("fail");
-                  }}
-                >
-                  {decodeURIComponent(i)}
-                </Button>
-              ))}
+    <Container className='App'>
+      <div style={{ position: "relative" }}>
+        {!isExamFinished && (
+          <div className='appContainer'>
+            <div>
+              <LinearProgress
+                variant='determinate'
+                className='progressBar'
+                value={progress}
+              />
+              <QuestionContainer
+                activeQuestion={activeQuestion}
+                setIsExamFinished={setIsExamFinished}
+                answerHistory={answerHistory}
+                setAnswerHistory={setAnswerHistory}
+                setActiveQuestion={setActiveQuestion}
+              />
             </div>
+            <ResultBar
+              currentScore={currentScore}
+              possibleHighest={possibleHighest}
+              lowestScore={lowestScore}
+            />
           </div>
-          {activeAnswer && (
-            <div>{activeAnswer === "pass" ? "Correct!" : "Sorry!"}</div>
-          )}
-          <div className="nextBtnWrapper">
-            <Button
-              disabled={questionArray.length === activeQuestion.activeIndex + 1}
-              variant="contained"
-              component="label"
-              className="nextButton"
-              onClick={onNextQuestion}
-            >
-              Next Question
-            </Button>
-          </div>
-        </div>
+        )}
+        {isExamFinished && <FinishExam />}
       </div>
-      
     </Container>
   );
 }

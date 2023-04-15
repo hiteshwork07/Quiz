@@ -1,0 +1,49 @@
+.resultBarContainer {
+  width: 100%;
+  padding: 30px 0;
+}
+.progressBarWrapper {
+  margin: 0 70px;
+}
+.progress {
+  position: relative;
+  background: #fff;
+  border: 2px solid black;
+  border-radius: 10px;
+  min-height: 25px;
+}
+.custom-progress-bar {
+  position: absolute;
+  height: 25px;
+}
+.custom-progress-bar-success {
+  background: #000;
+  z-index: 3;
+}
+.custom-progress-bar-completed {
+  background: #666464;
+  z-index: 2;
+}
+.custom-progress-bar-need-finish {
+  background-color: grey;
+  z-index: 1;
+}
+.progressPercentage {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.progressBar {
+  padding: 5px;
+  background-color: white !important;
+}
+.progressBar .MuiLinearProgress-bar {
+  background-color: grey !important;
+}
+
+@media only screen and (max-width: 600px) {
+  .progressBarWrapper {
+    margin: 0 20px;
+  }
+}
