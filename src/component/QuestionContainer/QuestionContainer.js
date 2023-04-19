@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 
 //constants and helper
 import { questionArray } from "../../utils/constant";
-import { getRating } from "../../utils/helperFunction";
+import { getRating, shuffleArray } from "../../utils/helperFunction";
 
 //css
 import "./styles.css";
@@ -37,13 +37,14 @@ const QuestionContainer = ({
       });
     }
     const newIndex = activeQuestion.activeIndex + 1;
+    const newArray = shuffleArray([
+      questionArray[newIndex].correct_answer,
+      ...questionArray[newIndex].incorrect_answers,
+    ]);
     setActiveQuestion({
       ...questionArray[newIndex],
       activeIndex: newIndex,
-      incorrect_answers: [
-        questionArray[newIndex].correct_answer,
-        ...questionArray[newIndex].incorrect_answers,
-      ],
+      incorrect_answers: newArray,
     });
     setActiveAnswer("");
     setSelectedAnswer("");
@@ -51,33 +52,33 @@ const QuestionContainer = ({
 
   // Quiz question render
   return (
-    <div className='boxWrapper'>
-      <div className='questionHeader'>
+    <div className="boxWrapper">
+      <div className="questionHeader">
         <h1 style={{ margin: 0 }}>
           {`Question ${activeQuestion.activeIndex + 1} of ${
             questionArray.length
           }`}
         </h1>
       </div>
-      <div className='categoryLabel'>
+      <div className="categoryLabel">
         {decodeURIComponent(activeQuestion.category)}
       </div>
       <Rating
-        name='text-feedback'
+        name="text-feedback"
         value={getRating(activeQuestion.difficulty)}
         readOnly
         precision={0.5}
-        color='red'
-        className='ratingStar'
+        color="red"
+        className="ratingStar"
       />
-      <div className='mt-5'>{decodeURIComponent(activeQuestion.question)}</div>
-      <div className='mt-4'>
+      <div className="mt-5">{decodeURIComponent(activeQuestion.question)}</div>
+      <div className="mt-4">
         <Row>
           {activeQuestion.incorrect_answers.map((i) => (
             <Col xs={12} sm={6}>
               <Button
-                variant='contained'
-                component='label'
+                variant="contained"
+                component="label"
                 className={`button w-100 mt-4 mb-4 text-uppercase optionsButton ${
                   i === selectedAnswer && "selectedOptionActive"
                 }`}
@@ -86,7 +87,8 @@ const QuestionContainer = ({
                   if (activeQuestion.correct_answer === i)
                     return setActiveAnswer("pass");
                   else setActiveAnswer("fail");
-                }}>
+                }}
+              >
                 {decodeURIComponent(i)}
               </Button>
             </Col>
@@ -94,15 +96,16 @@ const QuestionContainer = ({
         </Row>
       </div>
 
-      <div style={{ marginTop: 20 }} className='nextBtnWrapper'>
-        <div className='correctLabel'>
+      <div style={{ marginTop: 20 }} className="nextBtnWrapper">
+        <div className="correctLabel">
           {activeAnswer && (activeAnswer === "pass" ? "Correct!" : "Sorry!")}
         </div>
         <Button
-          variant='contained'
-          component='label'
-          className='nextButton'
-          onClick={onNextQuestion}>
+          variant="contained"
+          component="label"
+          className="nextButton"
+          onClick={onNextQuestion}
+        >
           Next Question
         </Button>
       </div>

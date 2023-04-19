@@ -9,6 +9,7 @@ import { questionArray } from "./utils/constant";
 import FinishExam from "./component/FinishExam/FinishExam";
 import QuestionContainer from "./component/QuestionContainer/QuestionContainer";
 import ResultBar from "./component/ResultBar/ResultBar";
+import { shuffleArray } from "./utils/helperFunction";
 
 function App() {
   const [isExamFinished, setIsExamFinished] = useState(false);
@@ -19,10 +20,10 @@ function App() {
   const [activeQuestion, setActiveQuestion] = useState({
     ...questionArray[0],
     activeIndex: 0,
-    incorrect_answers: [
-      questionArray[0].correct_answer,
+    incorrect_answers: shuffleArray([
       ...questionArray[0].incorrect_answers,
-    ],
+      questionArray[0].correct_answer,
+    ]),
   });
 
   // Quiz progress
@@ -39,14 +40,14 @@ function App() {
   const possibleHighest = remainingHighestPercentage + lowestScore;
 
   return (
-    <Container className='App'>
+    <Container className="App">
       <div style={{ position: "relative" }}>
         {!isExamFinished && (
-          <div className='appContainer'>
+          <div className="appContainer">
             <div>
               <LinearProgress
-                variant='determinate'
-                className='progressBar'
+                variant="determinate"
+                className="progressBar"
                 value={progress}
               />
               <QuestionContainer
